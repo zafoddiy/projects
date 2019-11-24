@@ -7,7 +7,7 @@
 #define MAX 20
 #define CONST 32
 
-void saving(char(*)[], char*);
+void finding_word(char(*)[], char*);
 void target(char*, char*);
 void solving(char*, char*);
 
@@ -16,7 +16,7 @@ int main(void)
 	char list[WORDS][MAX];
 	srand(time(NULL));
 	char word[MAX];
-	saving(list, word);
+	finding_word(list, word);
 	char solution[MAX];
 	target(word, solution);
 	solving(word, solution);
