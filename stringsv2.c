@@ -23,7 +23,7 @@ int main(void)
 	system("pause");
 }
 
-void saving(char (*a)[MAX], char *b)
+void finding_word(char (*a)[MAX], char *b)
 {
 	FILE *file = fopen("words.txt", "r");
 	int i;
