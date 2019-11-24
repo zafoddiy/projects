@@ -85,16 +85,16 @@ void solving(char w[MAX], char s[MAX])
 		getchar();
 		if (insert >= 'A' && insert <= 'Z')
 		{
-			while (insert < 'a' || insert > 'z')
-			{
-				insert = insert + CONST;
-			}
+			insert = insert + CONST;
 		}
 		else if (insert < 'a' || insert > 'z')
 		{
-			puts("Enter a character from a to z in the English alphabet!");
-			insert = getchar();
-			getchar();
+			while (insert < 'a' || insert > 'z')
+			{
+				puts("Enter a character from a to z in the English alphabet!");
+				insert = getchar();
+				getchar();
+			}
 		}
 		if (strchr(alphabet, insert) == NULL)
 		{
