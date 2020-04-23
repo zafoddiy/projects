@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define MAX_NAME 32
-#define ALPHA_LEN 28
+#define ALPHA_LEN 54
 
 typedef struct node
 {
@@ -46,7 +46,6 @@ void ReadData(trie_t *trie, char *file)
 	{
 		strcat(name, " ");
 		strcat(name, lName);
-		ConvertChars(name);
 		if (SearchName(trie, name) == 0)
 		{
 			InsertNode(trie, name);
@@ -117,7 +116,14 @@ void PrintNames(struct node *trie, char buf[], int level)
     {
         if (trie->chars[i] != NULL)  
         {
-			buf[level] = i + 'a';
+			if (i >= 0 && i <= 25)
+				buf[level] = i + 'a';
+			else if (i >= 26 && i <= 51)
+				buf[level] = i - 26 + 'A';
+			else if (i == 52)
+				buf[level] = i - 7;
+			else if (i == 53)
+				buf[level] = i - 21;
             PrintNames(trie->chars[i], buf, level + 1); 
         }
     }
@@ -129,11 +135,11 @@ int Position(char letter)
 	if (letter >= 'a' && letter <= 'z')
 		pos = (int)letter - 'a';
 	else if (letter >= 'A' && letter <= 'Z')
-		pos = (int)letter - 'A';
+		pos = (int)letter - 'A' + 26;
 	else if (letter == '-')
-		pos = 26;
+		pos = 52;
 	else
-		pos = 27;
+		pos = 53;
 	return pos;
 }
 
