@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define MAX_NAME 32
-#define ALPHA_LEN 26
+#define ALPHA_LEN 28
 
 typedef struct node
 {
@@ -24,7 +24,7 @@ void FreeTrie(struct node*);
 
 int main(void)
 {
-	trie_t *data = CreateNode(' ');
+	trie_t *data = CreateNode('\0');
 	ReadData(data, "03_data_long.txt");
 	int lvl = 0;
 	char string[MAX_NAME];
@@ -74,20 +74,17 @@ struct node *CreateNode(char letter)
 void InsertNode(struct node *trie, char name[])
 {
     int pos;
-    if (trie == NULL)
-    {
-		trie = CreateNode(name[0]);
-	}
+	struct node *pTemp = trie;
     for (int i = 0; i < strlen(name); ++i)
     {
-		pos = (int)name[i] - 'a';
-        if (trie->chars[pos] == NULL)
+		pos = Position(name[i]);
+        if (pTemp->chars[pos] == NULL)
         {
-            trie->chars[pos] = CreateNode(name[i]);
+            pTemp->chars[pos] = CreateNode(name[i]);
         }
-        trie = trie->chars[pos];
+        pTemp = pTemp->chars[pos];
     }
-    trie->isLeaf = 1;
+    pTemp->isLeaf = 1;
 }
 
 int SearchName(struct node *trie, char name[])
@@ -98,7 +95,7 @@ int SearchName(struct node *trie, char name[])
 	int pos;
 	for (int i = 0; name[i] != '\0'; ++i)
 	{
-		pos = (int)name[i] - 'a';
+		pos = Position(name[i]);
 		if (pTemp->chars[pos] == NULL)
 			return 0;
 		pTemp = pTemp->chars[pos];
@@ -110,22 +107,20 @@ int SearchName(struct node *trie, char name[])
 
 void PrintNames(struct node *trie, char buf[], int level) 
 {
-	printf("check1\n");
     if (trie->isLeaf == 1)  
     {
         buf[level] = '\0'; 
         printf("%s\n", buf);
     }
     int i;
-    printf("check2\n");
     for (i = 0; i < ALPHA_LEN; ++i)  
     {
         if (trie->chars[i] != NULL)  
-        { 
-            buf[level] = i + 'a'; 
+        {
+			buf[level] = i + 'a';
             PrintNames(trie->chars[i], buf, level + 1); 
         }
-    } 
+    }
 } 
 
 int Position(char letter)
@@ -135,10 +130,10 @@ int Position(char letter)
 		pos = (int)letter - 'a';
 	else if (letter >= 'A' && letter <= 'Z')
 		pos = (int)letter - 'A';
-	else if (letter == ' ')
-		pos = 52;
+	else if (letter == '-')
+		pos = 26;
 	else
-		pos = 53;
+		pos = 27;
 	return pos;
 }
 
